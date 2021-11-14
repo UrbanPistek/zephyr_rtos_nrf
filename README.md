@@ -1,6 +1,8 @@
 # Zephyr NRF BLE Project 
 
-## Zephyr Setup 
+## Zephyr Setup - Ubuntu
+
+**Note:** This setup guide should work for any linux distribution and MacOS with minimal modifications.
 
 Follow: 
 https://docs.zephyrproject.org/latest/getting_started/index.html
@@ -20,7 +22,7 @@ Once you have the toolchain, you can add it to your PATH, by setting the followi
 
 Add to `~/.zshrc` or `~/.bashrc`:
 ```
-export ZEPHYR_TOOLCHAIN_VARIANT=gnuarmemb.
+export ZEPHYR_TOOLCHAIN_VARIANT=gnuarmemb
 export GNUARMEMB_TOOLCHAIN_PATH=~/toolchains/gcc-arm-none-eabi-10-2020-q4-major/
 ```
 
@@ -59,6 +61,19 @@ west build -b nrf52833dk_nrf52833 app --pristine
 west flash
 ```
 
+### Debug and Logging
+In another terminal, run:
+```
+JLinkRTTClient
+```
+
+Then debug with:
+```
+west debug
+```
+This will let you use GDB to debug the app and the output will be printed to the terminal.
+
+
 ## Troubleshooting
 On ubuntu or debian systems, you may need to install: 
 ```
@@ -73,4 +88,15 @@ source venv/bin/activate
 Note: If running conda on your system, ensure the base enviroment is not activated. 
 ```
 CONDA_AUTO_ACTIVATE_BASE=false
+```
+
+### west debug error 
+If when running `west debug` you get the following error:
+```
+FATAL ERROR: command exited with status 127: /home/urbanpistek/toolchains/gcc-arm-none-eabi-10-2020-q4-major/bin/arm-none-eabi-gdb /home/urbanpistek/Urban/embedded_projects/zephyr_nrf_ble/build/zephyr/zephyr.elf -ex 'target remote :2331' -ex 'monitor halt' -ex 'monitor reset' -ex load
+```
+
+Install the following packages:
+```
+sudo apt-get install libncurses5
 ```
